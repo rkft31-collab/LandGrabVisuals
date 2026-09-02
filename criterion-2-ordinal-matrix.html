@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Criterion 2 — Institutional Recognition of Indigenous Dispossession</title>
+<style>
+  :root {
+    --ink: #172026;
+    --muted: #5a666d;
+    --rule: #aeb9b8;
+    --rule-light: #dce2e0;
+    --paper: #fff;
+    --page: #ecefed;
+    --head: #e9eeeb;
+    --cell: #fbfcfb;
+    --accent: #2e5a4d;
+    --accent-soft: #edf4f1;
+    --archive: #86591f;
+    --archive-soft: #fff7e8;
+    --outside: #f1f2f0;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { background: var(--page); }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--page);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.38;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button { font: inherit; }
+
+  .page {
+    width: min(1480px, calc(100% - 40px));
+    margin: 28px auto;
+    padding: 34px 38px 30px;
+    background: var(--paper);
+    box-shadow: 0 1px 8px rgb(24 34 39 / 9%);
+  }
+
+  .figure-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 390px);
+    gap: 30px;
+    align-items: end;
+    padding-bottom: 17px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .figure-number,
+  .axis-kicker,
+  .cell-count,
+  .legend,
+  .note-label,
+  .school,
+  .key-grid,
+  .outside,
+  .detail,
+  .screen-hint {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .figure-number {
+    margin: 0 0 5px;
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 930px;
+    margin: 0;
+    font-size: clamp(1.65rem, 3.1vw, 2.65rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -.018em;
+  }
+
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: .94rem;
+    line-height: 1.48;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px 20px;
+    margin: 14px 0 13px;
+    color: var(--muted);
+    font-size: .72rem;
+  }
+
+  .legend-item { display: inline-flex; align-items: center; gap: 7px; }
+
+  .legend-chip {
+    width: 27px;
+    height: 14px;
+    border: 1.4px solid var(--accent);
+    border-radius: 999px;
+    background: white;
+  }
+
+  .legend-chip.archived {
+    border-color: var(--archive);
+    border-style: dashed;
+    background: var(--archive-soft);
+  }
+
+  .matrix-scroller {
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-color: var(--rule) transparent;
+  }
+
+  .matrix {
+    display: grid;
+    grid-template-columns: 210px repeat(4, minmax(205px, 1fr));
+    gap: 5px;
+    min-width: 1050px;
+  }
+
+  .corner,
+  .colhead,
+  .rowhead,
+  .cell { border: 1px solid var(--rule); }
+
+  .corner,
+  .colhead,
+  .rowhead { background: var(--head); }
+
+  .corner {
+    position: relative;
+    display: grid;
+    min-height: 112px;
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .corner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top right, transparent 49.5%, var(--rule) 50%, transparent 50.5%);
+    pointer-events: none;
+  }
+
+  .corner .depth { align-self: start; justify-self: end; text-align: right; }
+  .corner .authority { align-self: end; justify-self: start; }
+
+  .axis-kicker {
+    display: block;
+    color: var(--accent);
+    font-size: .61rem;
+    font-weight: 700;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+  }
+
+  .corner strong { display: block; max-width: 105px; margin-top: 2px; font-size: .73rem; line-height: 1.18; }
+
+  .colhead { min-height: 112px; padding: 12px 13px 11px; }
+  .rowhead { min-height: 118px; padding: 13px; }
+
+  .level {
+    display: inline-block;
+    min-width: 20px;
+    margin-bottom: 7px;
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+    font-size: .7rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .colhead strong,
+  .rowhead strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: .85rem;
+    line-height: 1.18;
+  }
+
+  .colhead p,
+  .rowhead p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .68rem;
+    line-height: 1.32;
+  }
+
+  .cell {
+    position: relative;
+    min-height: 118px;
+    padding: 11px 10px 25px;
+    background: var(--cell);
+  }
+
+  .cell:empty::before {
+    content: "—";
+    color: var(--rule);
+    font-size: .8rem;
+  }
+
+  .schools {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(52px, max-content));
+    gap: 6px;
+    align-content: start;
+    justify-content: start;
+  }
+
+  .school {
+    min-width: 50px;
+    border: 1.25px solid var(--accent);
+    border-radius: 999px;
+    padding: 4px 8px 3px;
+    background: var(--paper);
+    color: var(--accent);
+    cursor: pointer;
+    font-size: .7rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: .01em;
+    text-align: center;
+    transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+  }
+
+  .school:hover,
+  .school:focus-visible,
+  .school[aria-pressed="true"] {
+    outline: 0;
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 0 0 2px var(--accent-soft);
+  }
+
+  .school.archived {
+    border-color: var(--archive);
+    border-style: dashed;
+    background: var(--archive-soft);
+    color: var(--archive);
+  }
+
+  .school.archived:hover,
+  .school.archived:focus-visible,
+  .school.archived[aria-pressed="true"] { background: var(--archive); color: white; }
+
+  .cell-count {
+    position: absolute;
+    right: 8px;
+    bottom: 6px;
+    color: #7b8588;
+    font-size: .59rem;
+    letter-spacing: .045em;
+    text-transform: uppercase;
+  }
+
+  .below-matrix {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(270px, .9fr);
+    gap: 22px;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .method-note,
+  .source-note { margin: 0; color: var(--muted); font-size: .72rem; }
+  .note-label { color: var(--ink); font-size: .68rem; font-weight: 700; letter-spacing: .055em; text-transform: uppercase; }
+
+  .outside {
+    margin-top: 17px;
+    padding: 10px 13px;
+    border: 1px solid var(--rule);
+    background: var(--outside);
+    font-size: .72rem;
+  }
+
+  .outside strong { color: var(--ink); }
+
+  .detail {
+    margin-top: 18px;
+    padding: 15px 17px;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    background: var(--paper);
+    font-size: .8rem;
+  }
+
+  .detail h2 { margin: 0 0 5px; font-family: Georgia, "Times New Roman", serif; font-size: 1.15rem; font-weight: 500; }
+  .detail p { margin: 4px 0; }
+  .detail .status { color: var(--archive); font-weight: 700; }
+  .screen-hint { margin: 0 0 3px; color: var(--muted); font-size: .65rem; }
+
+  .abbr-section { margin-top: 24px; padding-top: 15px; border-top: 1px solid var(--ink); }
+  .abbr-section h2 { margin: 0 0 9px; font-size: 1rem; font-weight: 600; }
+
+  .key-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 18px;
+    font-size: .65rem;
+    line-height: 1.25;
+  }
+
+  .key-grid div { padding: 3px 0; border-bottom: 1px solid var(--rule-light); }
+  .key-grid strong { color: var(--accent); }
+
+  .footnote { margin: 14px 0 0; color: var(--muted); font-size: .7rem; }
+
+  @media (max-width: 760px) {
+    .page { width: 100%; margin: 0; padding: 24px 16px 35px; box-shadow: none; }
+    .figure-header, .below-matrix { grid-template-columns: 1fr; gap: 10px; }
+    .subtitle { max-width: 680px; }
+    .matrix { grid-template-columns: 185px repeat(4, minmax(190px, 1fr)); min-width: 960px; }
+    .key-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 460px) {
+    .key-grid { grid-template-columns: 1fr; }
+    .legend { display: grid; }
+  }
+
+  @media print {
+    @page { size: letter landscape; margin: .32in .36in; }
+    html, body { background: white; }
+    body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .page { width: auto; margin: 0; padding: 0; box-shadow: none; }
+    .figure-header { grid-template-columns: 1fr 340px; gap: 22px; padding-bottom: 9px; }
+    h1 { font-size: 21pt; }
+    .subtitle { font-size: 8.2pt; }
+    .legend { margin: 7px 0; font-size: 6.5pt; }
+    .matrix-scroller { overflow: visible; padding: 0; }
+    .matrix { min-width: 0; grid-template-columns: 1.48in repeat(4, 1fr); gap: 3px; }
+    .corner, .colhead { min-height: .79in; }
+    .rowhead, .cell { min-height: .82in; }
+    .corner, .colhead, .rowhead, .cell { break-inside: avoid; }
+    .corner { padding: 7px; }
+    .colhead, .rowhead { padding: 7px 8px; }
+    .level { margin-bottom: 3px; font-size: 6pt; }
+    .colhead strong, .rowhead strong { margin-bottom: 2px; font-size: 7.2pt; }
+    .colhead p, .rowhead p { font-size: 5.6pt; line-height: 1.2; }
+    .cell { padding: 7px 6px 15px; }
+    .schools { grid-template-columns: repeat(auto-fit, minmax(37px, max-content)); gap: 3px; }
+    .school { min-width: 36px; padding: 2px 5px; font-size: 5.8pt; }
+    .cell-count { right: 5px; bottom: 3px; font-size: 4.9pt; }
+    .below-matrix { grid-template-columns: 1.45fr 1fr; gap: 15px; margin-top: 6px; padding-top: 6px; }
+    .method-note, .source-note, .outside, .footnote { font-size: 5.8pt; line-height: 1.25; }
+    .outside { margin-top: 6px; padding: 5px 8px; }
+    .detail { display: none; }
+    .abbr-section { break-before: page; margin-top: 0; padding-top: 0; border: 0; }
+    .abbr-section h2 { font-size: 12pt; }
+    .key-grid { grid-template-columns: repeat(4, 1fr); font-size: 6.8pt; }
+    .screen-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="figure-header">
+    <div>
+      <p class="figure-number">Criterion 2 · Ordinal matrix</p>
+      <h1>Institutional Recognition of Indigenous Dispossession</h1>
+    </div>
+    <p class="subtitle">Universities are positioned in ordered qualitative categories. Columns represent the substantive depth of a qualifying acknowledgment; rows represent the institutional authority behind that same artifact.</p>
+  </header>
+
+  <div class="legend" aria-label="Legend">
+    <span class="legend-item"><span class="legend-chip" aria-hidden="true"></span>Current qualifying evidence</span>
+    <span class="legend-item"><span class="legend-chip archived" aria-hidden="true"></span>Archived or non-current evidence</span>
+    <span class="legend-item">Placement is categorical; no interval distance is implied.</span>
+  </div>
+
+  <div class="matrix-scroller" role="region" aria-label="Ordinal matrix of universities" tabindex="0">
+    <div id="matrix" class="matrix"></div>
+  </div>
+
+  <div class="below-matrix">
+    <p class="method-note"><span class="note-label">Method.</span> Identify the highest-authority qualifying Criterion 2 artifact, then code the substantive depth of that same artifact. Deeper language from a lower-level unit is treated as supplemental evidence rather than combined with a different artifact’s authority.</p>
+    <p class="source-note"><span class="note-label">Reading the figure.</span> Categories increase from left to right and bottom to top. These are ordinal positions only: adjacent categories are not assumed to be equally distant.</p>
+  </div>
+
+  <aside class="outside"><strong>Outside the matrix — MSST, Mississippi State University:</strong> no qualifying Criterion 2 evidence located. This does not imply that Criterion 1 applies; other Indigenous-related actions may be recorded elsewhere in the broader framework.</aside>
+
+  <section id="detail" class="detail" aria-live="polite">
+    <p class="screen-hint">Interactive browser detail</p>
+    <h2>Select a university</h2>
+    <p>Choose any abbreviation in the matrix to review the categorical basis for its placement.</p>
+  </section>
+
+  <section class="abbr-section">
+    <h2>University abbreviation key</h2>
+    <div id="key" class="key-grid"></div>
+  </section>
+
+  <p class="footnote">† Ohio State University is retained because Criterion 2 includes actions that were “offered or attempted.” Its prior land-acknowledgment work is archived or non-current and is therefore visually distinguished from active institutional acknowledgments.</p>
+</main>
+
+<script>
+const xLevels = {
+  1: { label: "Territorial recognition", detail: "Recognizes Indigenous homelands, peoples, presence, or stewardship without substantially explaining dispossession." },
+  2: { label: "Dispossession recognized", detail: "Explicitly recognizes removal, seizure, colonization, coercion, treaty violation, or another mechanism of Indigenous dispossession." },
+  3: { label: "Land-grant culpability", detail: "Explicitly connects Indigenous dispossession to the Morrill Act, land-grant system, university financing, founding, or institutional growth." },
+  4: { label: "Material / continuing benefit", detail: "Explicitly identifies an endowment, sale proceeds, retained land, continuing revenue, or another present or material institutional benefit." }
+};
+
+const yLevels = {
+  1: { label: "Unit / project / informal", detail: "Department, center, student project, faculty initiative, or other non-central institutional source." },
+  2: { label: "Official decentralized / shared governance", detail: "Official university entities or shared-governance bodies, but without clear adoption by the central executive or governing board." },
+  3: { label: "Central institutional", detail: "A university-wide or centrally presented institutional acknowledgment without documented top-level formal adoption." },
+  4: { label: "President / Chancellor / Board / Regents", detail: "The qualifying response is issued, adopted, formally approved, or institutionally used at the university’s highest levels." }
+};
+
+const schools = [
+  { abbr: "AU", name: "Auburn University", x: 3, y: 1 },
+  { abbr: "UAF", name: "University of Alaska Fairbanks", x: 1, y: 3 },
+  { abbr: "UA", name: "University of Arizona", x: 1, y: 3 },
+  { abbr: "UARK", name: "University of Arkansas", x: 2, y: 2 },
+  { abbr: "UCB", name: "University of California, Berkeley", x: 4, y: 2 },
+  { abbr: "CSU", name: "Colorado State University", x: 3, y: 3 },
+  { abbr: "UConn", name: "University of Connecticut", x: 1, y: 3 },
+  { abbr: "UD", name: "University of Delaware", x: 4, y: 2 },
+  { abbr: "UF", name: "University of Florida", x: 3, y: 1 },
+  { abbr: "UGA", name: "University of Georgia", x: 2, y: 1 },
+  { abbr: "UI", name: "University of Idaho", x: 1, y: 2 },
+  { abbr: "UIUC", name: "University of Illinois Urbana-Champaign", x: 3, y: 4 },
+  { abbr: "PU", name: "Purdue University", x: 3, y: 2 },
+  { abbr: "ISU", name: "Iowa State University", x: 2, y: 3 },
+  { abbr: "KSU", name: "Kansas State University", x: 3, y: 3 },
+  { abbr: "UK", name: "University of Kentucky", x: 2, y: 1 },
+  { abbr: "LSU", name: "Louisiana State University", x: 2, y: 2 },
+  { abbr: "UMaine", name: "University of Maine", x: 2, y: 3 },
+  { abbr: "UMD", name: "University of Maryland", x: 1, y: 3 },
+  { abbr: "UMass", name: "University of Massachusetts Amherst", x: 3, y: 3 },
+  { abbr: "MSU", name: "Michigan State University", x: 3, y: 3 },
+  { abbr: "UMN", name: "University of Minnesota Twin Cities", x: 1, y: 2 },
+  { abbr: "MU", name: "University of Missouri", x: 2, y: 1 },
+  { abbr: "MSU-MT", name: "Montana State University", x: 1, y: 1 },
+  { abbr: "UNL", name: "University of Nebraska-Lincoln", x: 3, y: 1 },
+  { abbr: "UNR", name: "University of Nevada, Reno", x: 1, y: 4 },
+  { abbr: "UNH", name: "University of New Hampshire", x: 2, y: 3 },
+  { abbr: "RU", name: "Rutgers University", x: 3, y: 2 },
+  { abbr: "NMSU", name: "New Mexico State University", x: 1, y: 2 },
+  { abbr: "Cornell", name: "Cornell University", x: 3, y: 3 },
+  { abbr: "NCSU", name: "North Carolina State University", x: 4, y: 2 },
+  { abbr: "NDSU", name: "North Dakota State University", x: 1, y: 3 },
+  { abbr: "OSU-OH", name: "The Ohio State University", x: 3, y: 1, status: "archived" },
+  { abbr: "OKSU", name: "Oklahoma State University", x: 1, y: 2 },
+  { abbr: "OSU", name: "Oregon State University", x: 4, y: 4 },
+  { abbr: "PSU", name: "Pennsylvania State University", x: 1, y: 3 },
+  { abbr: "Clemson", name: "Clemson University", x: 2, y: 2 },
+  { abbr: "SDSU", name: "South Dakota State University", x: 1, y: 4 },
+  { abbr: "UT", name: "University of Tennessee", x: 2, y: 1 },
+  { abbr: "TAMU", name: "Texas A&M University", x: 3, y: 1 },
+  { abbr: "USU", name: "Utah State University", x: 2, y: 3 },
+  { abbr: "UVM", name: "University of Vermont", x: 2, y: 4 },
+  { abbr: "VT", name: "Virginia Tech", x: 3, y: 4 },
+  { abbr: "WSU", name: "Washington State University", x: 4, y: 3 },
+  { abbr: "WVU", name: "West Virginia University", x: 2, y: 1 },
+  { abbr: "UW", name: "University of Wisconsin-Madison", x: 2, y: 4 }
+];
+
+const outsideSchool = { abbr: "MSST", name: "Mississippi State University" };
+
+function element(tag, className, html) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (html !== undefined) node.innerHTML = html;
+  return node;
+}
+
+function renderMatrix() {
+  const matrix = document.getElementById("matrix");
+  matrix.appendChild(element("div", "corner", '<span class="depth"><span class="axis-kicker">Columns →</span><strong>Substantive depth</strong></span><span class="authority"><span class="axis-kicker">Rows ↑</span><strong>Institutional authority</strong></span>'));
+
+  for (let x = 1; x <= 4; x++) {
+    matrix.appendChild(element("div", "colhead", `<span class="level">${x}</span><strong>${xLevels[x].label}</strong><p>${xLevels[x].detail}</p>`));
+  }
+
+  for (let y = 4; y >= 1; y--) {
+    matrix.appendChild(element("div", "rowhead", `<span class="level">${y}</span><strong>${yLevels[y].label}</strong><p>${yLevels[y].detail}</p>`));
+    for (let x = 1; x <= 4; x++) {
+      const occupants = schools.filter(s => s.x === x && s.y === y).sort((a, b) => a.abbr.localeCompare(b.abbr));
+      const cell = element("div", "cell");
+      cell.setAttribute("aria-label", `${xLevels[x].label}; ${yLevels[y].label}; ${occupants.length} ${occupants.length === 1 ? "university" : "universities"}`);
+      if (occupants.length) {
+        const holder = element("div", "schools");
+        occupants.forEach(s => {
+          const button = element("button", `school${s.status === "archived" ? " archived" : ""}`);
+          button.type = "button";
+          button.textContent = `${s.abbr}${s.status === "archived" ? "†" : ""}`;
+          button.title = s.name;
+          button.setAttribute("aria-label", `${s.name}: ${xLevels[s.x].label}; ${yLevels[s.y].label}${s.status === "archived" ? "; archived or non-current evidence" : ""}`);
+          button.setAttribute("aria-pressed", "false");
+          button.addEventListener("click", () => showDetail(s, button));
+          holder.appendChild(button);
+        });
+        cell.appendChild(holder);
+        cell.appendChild(element("span", "cell-count", `${occupants.length} ${occupants.length === 1 ? "school" : "schools"}`));
+      }
+      matrix.appendChild(cell);
+    }
+  }
+}
+
+function showDetail(s, selectedButton) {
+  document.querySelectorAll(".school").forEach(button => button.setAttribute("aria-pressed", String(button === selectedButton)));
+  const detail = document.getElementById("detail");
+  const archiveText = s.status === "archived" ? '<p class="status">Historical or attempted Criterion 2 response; currently archived or non-current.</p>' : "";
+  detail.innerHTML = `<p class="screen-hint">Interactive browser detail</p><h2>${s.name} (${s.abbr})</h2><p><strong>Substantive category:</strong> ${xLevels[s.x].label} — ${xLevels[s.x].detail}</p><p><strong>Institutional-authority category:</strong> ${yLevels[s.y].label} — ${yLevels[s.y].detail}</p>${archiveText}`;
+}
+
+function renderKey() {
+  const key = document.getElementById("key");
+  [...schools, outsideSchool].sort((a, b) => a.abbr.localeCompare(b.abbr)).forEach(s => {
+    key.appendChild(element("div", "", `<strong>${s.abbr}${s.status === "archived" ? "†" : ""}</strong> — ${s.name}`));
+  });
+}
+
+renderMatrix();
+renderKey();
+</script>
+</body>
+</html>
