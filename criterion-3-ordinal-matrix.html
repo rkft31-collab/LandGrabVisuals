@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Criterion 3 — Indigenous Student Support and Educational Infrastructure</title>
+<style>
+  :root{--ink:#172026;--muted:#5a666d;--rule:#aeb9b8;--rule-light:#dce2e0;--paper:#fff;--page:#ecefed;--head:#e9eeeb;--cell:#fbfcfb;--accent:#2e5a4d;--accent-soft:#edf4f1;--outside:#f1f2f0}
+  *{box-sizing:border-box} html{background:var(--page)}
+  body{margin:0;color:var(--ink);background:var(--page);font-family:Georgia,"Times New Roman",serif;line-height:1.38;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+  button{font:inherit}.page{width:min(1480px,calc(100% - 40px));margin:28px auto;padding:34px 38px 30px;background:var(--paper);box-shadow:0 1px 8px rgb(24 34 39 / 9%)}
+  .figure-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,390px);gap:30px;align-items:end;padding-bottom:17px;border-bottom:1px solid var(--ink)}
+  .figure-number,.axis-kicker,.cell-count,.legend,.note-label,.school,.key-grid,.level-one-note,.detail,.screen-hint{font-family:Arial,Helvetica,sans-serif}
+  .figure-number{margin:0 0 5px;color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+  h1{max-width:930px;margin:0;font-size:clamp(1.65rem,3.1vw,2.65rem);font-weight:500;line-height:1.08;letter-spacing:-.018em}
+  .subtitle{margin:0;color:var(--muted);font-size:.94rem;line-height:1.48}
+  .legend{display:flex;flex-wrap:wrap;gap:9px 20px;margin:14px 0 13px;color:var(--muted);font-size:.72rem}.legend-item{display:inline-flex;align-items:center;gap:7px}.legend-chip{width:27px;height:14px;border:1.4px solid var(--accent);border-radius:999px;background:#fff}
+  .matrix-scroller{overflow-x:auto;padding-bottom:8px;scrollbar-color:var(--rule) transparent}.matrix{display:grid;grid-template-columns:210px repeat(4,minmax(205px,1fr));gap:5px;min-width:1050px}
+  .corner,.colhead,.rowhead,.cell{border:1px solid var(--rule)}.corner,.colhead,.rowhead{background:var(--head)}
+  .corner{position:relative;display:grid;min-height:126px;padding:12px;overflow:hidden}.corner::after{content:"";position:absolute;inset:0;background:linear-gradient(to top right,transparent 49.5%,var(--rule) 50%,transparent 50.5%);pointer-events:none}.corner .depth{align-self:start;justify-self:end;text-align:right}.corner .authority{align-self:end;justify-self:start}
+  .axis-kicker{display:block;color:var(--accent);font-size:.61rem;font-weight:700;letter-spacing:.075em;text-transform:uppercase}.corner strong{display:block;max-width:112px;margin-top:2px;font-size:.73rem;line-height:1.18}
+  .colhead{min-height:126px;padding:12px 13px 11px}.rowhead{min-height:118px;padding:13px}
+  .level{display:inline-block;min-width:26px;margin-bottom:7px;padding-bottom:2px;border-bottom:2px solid var(--accent);color:var(--accent);font-family:Arial,Helvetica,sans-serif;font-size:.67rem;font-weight:700;line-height:1;letter-spacing:.04em}
+  .colhead strong,.rowhead strong{display:block;margin-bottom:5px;font-size:.85rem;line-height:1.18}.colhead p,.rowhead p{margin:0;color:var(--muted);font-size:.66rem;line-height:1.29}
+  .cell{position:relative;min-height:118px;padding:11px 10px 25px;background:var(--cell)}.cell:empty::before{content:"—";color:var(--rule);font-size:.8rem}
+  .schools{display:grid;grid-template-columns:repeat(auto-fit,minmax(52px,max-content));gap:6px;align-content:start;justify-content:start}
+  .school{min-width:50px;border:1.25px solid var(--accent);border-radius:999px;padding:4px 8px 3px;background:var(--paper);color:var(--accent);cursor:pointer;font-size:.7rem;font-weight:700;line-height:1.25;letter-spacing:.01em;text-align:center;transition:background-color 120ms ease,color 120ms ease,box-shadow 120ms ease}
+  .school:hover,.school:focus-visible,.school[aria-pressed="true"]{outline:0;background:var(--accent);color:#fff;box-shadow:0 0 0 2px var(--accent-soft)}
+  .cell-count{position:absolute;right:8px;bottom:6px;color:#7b8588;font-size:.59rem;letter-spacing:.045em;text-transform:uppercase}
+  .below-matrix{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,.9fr);gap:22px;margin-top:10px;padding-top:12px;border-top:1px solid var(--rule-light)}
+  .method-note,.source-note{margin:0;color:var(--muted);font-size:.72rem}.note-label{color:var(--ink);font-size:.68rem;font-weight:700;letter-spacing:.055em;text-transform:uppercase}
+  .level-one-note{margin-top:17px;padding:10px 13px;border:1px solid var(--rule);background:var(--outside);font-size:.72rem}.level-one-note strong{color:var(--ink)}
+  .detail{margin-top:18px;padding:15px 17px;border:1px solid var(--rule);border-left:4px solid var(--accent);background:var(--paper);font-size:.8rem}.detail h2{margin:0 0 5px;font-family:Georgia,"Times New Roman",serif;font-size:1.15rem;font-weight:500}.detail h3{margin:12px 0 4px;font-family:Georgia,"Times New Roman",serif;font-size:.95rem;font-weight:600}.detail p{margin:4px 0}.screen-hint{margin:0 0 3px;color:var(--muted);font-size:.65rem}
+  .abbr-section{margin-top:24px;padding-top:15px;border-top:1px solid var(--ink)}.abbr-section h2{margin:0 0 9px;font-size:1rem;font-weight:600}.key-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 18px;font-size:.65rem;line-height:1.25}.key-grid div{padding:3px 0;border-bottom:1px solid var(--rule-light)}.key-grid strong{color:var(--accent)}.footnote{margin:14px 0 0;color:var(--muted);font-size:.7rem}
+  @media(max-width:760px){.page{width:100%;margin:0;padding:24px 16px 35px;box-shadow:none}.figure-header,.below-matrix{grid-template-columns:1fr;gap:10px}.subtitle{max-width:680px}.matrix{grid-template-columns:185px repeat(4,minmax(190px,1fr));min-width:960px}.key-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:460px){.key-grid{grid-template-columns:1fr}.legend{display:grid}}
+  @media print{
+    @page{size:letter landscape;margin:.28in .32in}html,body{background:#fff}body{print-color-adjust:exact;-webkit-print-color-adjust:exact}.page{width:auto;margin:0;padding:0;box-shadow:none}.figure-header{grid-template-columns:1fr 340px;gap:22px;padding-bottom:8px}h1{font-size:19pt}.subtitle{font-size:7.7pt}.legend{margin:6px 0;font-size:6.2pt}.matrix-scroller{overflow:visible;padding:0}.matrix{min-width:0;grid-template-columns:1.48in repeat(4,1fr);gap:3px}.corner,.colhead{min-height:.86in}.rowhead,.cell{min-height:.79in}.corner,.colhead,.rowhead,.cell{break-inside:avoid}.corner{padding:7px}.colhead,.rowhead{padding:6px 7px}.level{margin-bottom:3px;font-size:5.8pt}.colhead strong,.rowhead strong{margin-bottom:2px;font-size:6.9pt}.colhead p,.rowhead p{font-size:5.2pt;line-height:1.17}.cell{padding:7px 6px 15px}.schools{grid-template-columns:repeat(auto-fit,minmax(37px,max-content));gap:3px}.school{min-width:36px;padding:2px 5px;font-size:5.8pt}.cell-count{right:5px;bottom:3px;font-size:4.9pt}.below-matrix{grid-template-columns:1.45fr 1fr;gap:15px;margin-top:5px;padding-top:5px}.method-note,.source-note,.level-one-note,.footnote{font-size:5.5pt;line-height:1.2}.level-one-note{margin-top:5px;padding:4px 7px}.detail{display:none}.abbr-section{break-before:page;margin-top:0;padding-top:0;border:0}.abbr-section h2{font-size:12pt}.key-grid{grid-template-columns:repeat(4,1fr);font-size:6.8pt}.screen-hint{display:none}
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="figure-header">
+    <div><p class="figure-number">Criterion 3 · Ordinal matrix</p><h1>Indigenous Student Support and Educational Infrastructure</h1></div>
+    <p class="subtitle">Universities are positioned in ordered qualitative categories. Columns represent the breadth of Indigenous student-support infrastructure; rows represent Indigenous authority in curriculum and knowledge.</p>
+  </header>
+
+  <div class="legend" aria-label="Legend">
+    <span class="legend-item"><span class="legend-chip" aria-hidden="true"></span>University placement</span>
+    <span class="legend-item">Categories are ordered; labels X1–X4 and Y1–Y4 are identifiers, not quantitative measurements.</span>
+  </div>
+
+  <div class="matrix-scroller" role="region" aria-label="Criterion 3 ordinal matrix of universities" tabindex="0"><div id="matrix" class="matrix"></div></div>
+
+  <div class="below-matrix">
+    <p class="method-note"><span class="note-label">Method.</span> Student-support breadth and curricular authority are coded separately. Non-tuition financial assistance may contribute to support breadth; full tuition waivers are excluded and coded under Criterion 4.</p>
+    <p class="source-note"><span class="note-label">Reading the figure.</span> Categories increase from left to right and bottom to top. These are ordinal positions only: adjacent categories are not assumed to be equally distant.</p>
+  </div>
+
+  <aside class="level-one-note"><strong>Interpreting Level 1.</strong> Level 1 may represent no qualifying institutional Criterion 3 remedy and can include isolated, general, or student-led activity.</aside>
+
+  <section id="detail" class="detail" aria-live="polite">
+    <p class="screen-hint">Interactive browser detail</p><h2>Select a university</h2><h3>Why this placement?</h3><p>Choose any abbreviation in the matrix to review the two categorical bases for its placement.</p>
+  </section>
+
+  <section class="abbr-section"><h2>University abbreviation key</h2><div id="key" class="key-grid"></div></section>
+
+  <p class="footnote">Criterion 3 distinguishes the breadth of Indigenous-specific student support from Indigenous authority in curriculum and knowledge. High placement on one dimension does not imply high placement on the other. Full tuition waivers are coded under Criterion 4 rather than Criterion 3. Level 1 may indicate that no qualifying dedicated institutional Criterion 3 remedy was located.</p>
+</main>
+
+<script>
+const xLevels={
+  1:{code:"X1",label:"Minimal / no dedicated infrastructure",detail:"No dedicated Indigenous student-support office or comparable infrastructure located. Evidence may be limited to a student organization, general multicultural services, isolated scholarship or resource lists, or similar activity."},
+  2:{code:"X2",label:"Indigenous-specific supports, but dispersed",detail:"More than one recurring Indigenous-specific resource or program exists, but support is relatively fragmented or lacks a substantial dedicated Indigenous student-support operation."},
+  3:{code:"X3",label:"Dedicated Indigenous support infrastructure",detail:"A dedicated Indigenous/Native office, center, or sustained program exists with staff and recurring academic, cultural, social, mentoring, financial, or related services."},
+  4:{code:"X4",label:"Comprehensive Indigenous-centered ecosystem",detail:"Dedicated infrastructure plus several distinct forms of support such as academic advising, mentoring, cultural programming, non-tuition financial assistance, wellness, permanent gathering space, residential support, pre-college pipeline programming, or specialized professional support."}
+};
+const yLevels={
+  1:{code:"Y1",label:"Little/no formal Indigenous curricular structure",detail:"No substantial Indigenous Studies curriculum located, or only isolated courses or general academic treatment."},
+  2:{code:"Y2",label:"Formal Indigenous Studies curriculum",detail:"A recognized minor, certificate, course sequence, program, or comparable Indigenous Studies curriculum exists, but Indigenous faculty and Tribal/community participation are not both clearly documented."},
+  3:{code:"Y3",label:"Indigenous faculty or community-engaged curriculum",detail:"Formal Indigenous curriculum plus documented Indigenous faculty or substantial Tribal/community-engaged educational programming."},
+  4:{code:"Y4",label:"Indigenous curricular authority",detail:"Formal Indigenous curriculum, Indigenous faculty or knowledge holders, and documented Tribal/community participation in designing, governing, shaping, or delivering curriculum."}
+};
+
+// Future evidence can be added to these arrays without changing the matrix logic.
+// Financial support explicitly excludes full tuition waivers, which belong under Criterion 4.
+const emptyEvidence=()=>({
+  academicSupport:[],socialCommunitySupport:[],culturalSupport:[],financialSupportExcludingTuitionWaivers:[],wellnessSupport:[],dedicatedPhysicalSpace:[],residentialSupport:[],pipelineRecruitment:[],indigenousStudiesCurriculum:[],indigenousFaculty:[],tribalCommunityCurricularParticipation:[],evidenceSourceLinks:[]
+});
+const school=(abbr,name,x,y)=>({abbr,name,x,y,evidence:emptyEvidence()});
+const schools=[
+  school("AU","Auburn University",1,1),school("UAF","University of Alaska Fairbanks",4,4),school("UA","University of Arizona",4,4),school("UARK","University of Arkansas",4,4),school("UCB","University of California, Berkeley",4,3),school("CSU","Colorado State University",4,2),school("UConn","University of Connecticut",3,2),school("UD","University of Delaware",2,1),school("UF","University of Florida",2,1),school("UGA","University of Georgia",2,1),school("UI","University of Idaho",4,4),school("UIUC","University of Illinois Urbana-Champaign",4,3),school("PU","Purdue University",3,2),school("ISU","Iowa State University",3,2),school("KSU","Kansas State University",3,2),school("UK","University of Kentucky",2,1),school("LSU","Louisiana State University",1,1),school("UMaine","University of Maine",4,4),school("UMD","University of Maryland",3,2),school("UMass","University of Massachusetts Amherst",3,3),school("MSU","Michigan State University",3,3),school("UMN","University of Minnesota Twin Cities",4,4),school("MSST","Mississippi State University",1,1),school("MU","University of Missouri",1,2),school("MSU-MT","Montana State University",4,4),school("UNL","University of Nebraska-Lincoln",3,2),school("UNR","University of Nevada, Reno",4,3),school("UNH","University of New Hampshire",2,2),school("RU","Rutgers University",2,2),school("NMSU","New Mexico State University",4,3),school("Cornell","Cornell University",4,4),school("NCSU","North Carolina State University",3,2),school("NDSU","North Dakota State University",3,2),school("OSU-OH","The Ohio State University",2,2),school("OKSU","Oklahoma State University",3,2),school("OSU","Oregon State University",4,3),school("PSU","Pennsylvania State University",2,1),school("Clemson","Clemson University",1,1),school("SDSU","South Dakota State University",4,3),school("UT","University of Tennessee",2,1),school("TAMU","Texas A&M University",1,1),school("USU","Utah State University",3,2),school("UVM","University of Vermont",2,2),school("VT","Virginia Tech",3,2),school("WSU","Washington State University",4,3),school("WVU","West Virginia University",2,2),school("UW","University of Wisconsin-Madison",4,4)
+];
+
+function element(tag,className,html){const node=document.createElement(tag);if(className)node.className=className;if(html!==undefined)node.innerHTML=html;return node}
+function renderMatrix(){
+  const matrix=document.getElementById("matrix");
+  matrix.appendChild(element("div","corner",'<span class="depth"><span class="axis-kicker">Columns →</span><strong>Student-support infrastructure</strong></span><span class="authority"><span class="axis-kicker">Rows ↑</span><strong>Curriculum and knowledge</strong></span>'));
+  for(let x=1;x<=4;x++)matrix.appendChild(element("div","colhead",`<span class="level">${xLevels[x].code}</span><strong>${xLevels[x].label}</strong><p>${xLevels[x].detail}</p>`));
+  for(let y=4;y>=1;y--){
+    matrix.appendChild(element("div","rowhead",`<span class="level">${yLevels[y].code}</span><strong>${yLevels[y].label}</strong><p>${yLevels[y].detail}</p>`));
+    for(let x=1;x<=4;x++){
+      const occupants=schools.filter(s=>s.x===x&&s.y===y).sort((a,b)=>a.abbr.localeCompare(b.abbr));
+      const cell=element("div","cell");cell.setAttribute("aria-label",`${xLevels[x].label}; ${yLevels[y].label}; ${occupants.length} ${occupants.length===1?"university":"universities"}`);
+      if(occupants.length){const holder=element("div","schools");occupants.forEach(s=>{const button=element("button","school");button.type="button";button.textContent=s.abbr;button.title=s.name;button.setAttribute("aria-label",`${s.name}: ${xLevels[s.x].code}, ${xLevels[s.x].label}; ${yLevels[s.y].code}, ${yLevels[s.y].label}`);button.setAttribute("aria-pressed","false");button.addEventListener("click",()=>showDetail(s,button));holder.appendChild(button)});cell.appendChild(holder);cell.appendChild(element("span","cell-count",`${occupants.length} ${occupants.length===1?"school":"schools"}`))}matrix.appendChild(cell)
+    }
+  }
+}
+function showDetail(s,selectedButton){
+  document.querySelectorAll(".school").forEach(button=>button.setAttribute("aria-pressed",String(button===selectedButton)));
+  document.getElementById("detail").innerHTML=`<p class="screen-hint">Interactive browser detail</p><h2>${s.name} (${s.abbr})</h2><h3>Why this placement?</h3><p><strong>Student-support infrastructure:</strong> ${xLevels[s.x].code} — ${xLevels[s.x].label}</p><p>${xLevels[s.x].detail}</p><p><strong>Indigenous curriculum/knowledge:</strong> ${yLevels[s.y].code} — ${yLevels[s.y].label}</p><p>${yLevels[s.y].detail}</p>`
+}
+function renderKey(){const key=document.getElementById("key");[...schools].sort((a,b)=>a.abbr.localeCompare(b.abbr)).forEach(s=>key.appendChild(element("div","",`<strong>${s.abbr}</strong> — ${s.name}`)))}
+renderMatrix();renderKey();
+</script>
+</body>
+</html>
